@@ -18,7 +18,7 @@ export default function Home({}: PageProps) {
     push,
   } = useRouter();
   const [url, setUrl] = useState("");
-  const { error, mutateAsync } = trpc.url.generateUrl.useMutation();
+  const { error, mutateAsync, isLoading } = trpc.url.generateUrl.useMutation();
 
   const handleSubmit = useCallback(
     (e: FormEvent) => {
@@ -49,7 +49,7 @@ export default function Home({}: PageProps) {
         )}
       </FormControl>
 
-      <Button isDisabled={url.length === 0} type="submit">
+      <Button isLoading={isLoading} isDisabled={url.length === 0} type="submit">
         Generate short URL
       </Button>
     </Stack>
