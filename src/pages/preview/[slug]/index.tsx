@@ -98,7 +98,7 @@ export default function Preview() {
                       }, 2000);
                     }}
                   >
-                    {copyState[value] ? (
+                    {copyState[key] ? (
                       <CheckIcon color="green.400" />
                     ) : (
                       <CopyIcon />
