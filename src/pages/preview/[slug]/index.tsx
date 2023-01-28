@@ -42,8 +42,6 @@ export default function Preview() {
     },
   ];
 
-  console.log(error);
-
   if (error) {
     return (
       <Text textAlign="center">
