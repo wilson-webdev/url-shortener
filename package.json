@@ -9,15 +9,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/core": "^7.20.12",
+    "@chakra-ui/icons": "^2.0.17",
+    "@chakra-ui/react": "^2.4.9",
+    "@chakra-ui/system": "^2.3.8",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@next/font": "13.1.6",
     "@prisma/client": "^4.9.0",
+    "@tanstack/react-query": "^4.23.0",
+    "@trpc/client": "^10.9.0",
+    "@trpc/next": "^10.9.0",
+    "@trpc/react-query": "^10.9.0",
+    "@trpc/server": "^10.9.0",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.6",
+    "framer-motion": "^8.5.4",
     "next": "13.1.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "superjson": "^1.12.2",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@types/node": "18.11.18",
