@@ -1,5 +1,6 @@
 import { getOrigin } from "@/utils/get-origin";
 import { trpc } from "@/utils/trpc";
+import { CheckIcon, CopyIcon } from "@chakra-ui/icons";
 import {
   FormControl,
   FormLabel,
@@ -7,15 +8,32 @@ import {
   Spinner,
   Stack,
   Text,
-  Link,
+  InputGroup,
+  InputRightAddon,
+  IconButton,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { useReducer } from "react";
+
+type CopyReducer = (
+  state: Record<string, boolean>,
+  action: { key: string; hasCopied?: boolean }
+) => Record<string, boolean>;
 
 export default function Preview() {
   const {
     query: { slug },
   } = useRouter();
+  const [copyState, setCopyState] = useReducer<CopyReducer>(
+    (state, { key, hasCopied }) => {
+      return {
+        ...state,
+        [key]: hasCopied ?? !state[key],
+      };
+    },
+    {}
+  );
+
   const { data, isLoading, error } = trpc.url.getUrl.useQuery(
     {
       slug: slug as string,
@@ -31,12 +49,17 @@ export default function Preview() {
     }
   );
 
+  const shortUrl = `${getOrigin()}/${data?.shortUrl}`;
+
   const fields = [
     {
+      key: "shortUrl",
       label: "Short URL",
-      value: `${getOrigin()}/${data?.shortUrl}`,
+      value: shortUrl,
+      canCopy: true,
     },
     {
+      key: "originalUrl",
       label: "URL",
       value: data?.originalUrl,
     },
@@ -56,11 +79,34 @@ export default function Preview() {
 
   return (
     <Stack>
-      {fields.map((field) => {
+      {fields.map(({ key, value, label, canCopy }) => {
         return (
-          <FormControl key={field.value + field.label}>
-            <FormLabel>{field.label}</FormLabel>
-            <Input value={field.value} isReadOnly />
+          <FormControl key={key}>
+            <FormLabel>{label}</FormLabel>
+            <InputGroup>
+              <Input value={value} isReadOnly />
+              {canCopy && (
+                <InputRightAddon p="0">
+                  <IconButton
+                    aria-label="Copy URL"
+                    onClick={() => {
+                      navigator.clipboard.writeText(value);
+                      setCopyState({ key, hasCopied: true });
+
+                      setTimeout(() => {
+                        setCopyState({ key, hasCopied: false });
+                      }, 2000);
+                    }}
+                  >
+                    {copyState[value] ? (
+                      <CheckIcon color="green.400" />
+                    ) : (
+                      <CopyIcon />
+                    )}
+                  </IconButton>
+                </InputRightAddon>
+              )}
+            </InputGroup>
           </FormControl>
         );
       })}
