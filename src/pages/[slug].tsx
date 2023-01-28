@@ -1,6 +1,6 @@
 import { PageProps } from "@/types/page-props";
-import { trpc } from "@/utils/trpc";
 import { GetServerSideProps } from "next";
+import { prisma } from "@/server/utils/prisma";
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   params = {},
