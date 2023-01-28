@@ -1,9 +1,6 @@
 export function getOrigin() {
-  const vercelUrl =
-    process.env.NEXT_PUBLIC_VERCEL_URL || process.env.VERCEL_URL;
-
-  if (vercelUrl) {
-    return `https://${vercelUrl}`;
+  if (typeof window !== "undefined") {
+    return window.location.origin;
   }
 
   return `http://localhost:${process.env.PORT ?? 3000}`;
